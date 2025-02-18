@@ -22,6 +22,12 @@ class SaleOrder(models.Model):
         help="Estado de aprobación basado en el total de descuento y/o aprobación manual."
     )    
 
+    manual_approved = fields.Boolean(
+        string="Aprobado Manualmente", 
+        default=False,
+        help="Bandera para indicar que la orden fue aprobada manualmente mediante el botón."
+    )
+
     @api.depends('order_line', 'order_line.price_unit', 'order_line.discount', 'order_line.product_uom_qty')
     def _compute_total_descuento(self):
         for order in self:
@@ -31,7 +37,18 @@ class SaleOrder(models.Model):
             )
             order.total_descuento = total
 
-    @api.depends('total_descuento')
+    @api.depends('total_descuento', 'manual_approved')
     def _compute_estado_aprobacion(self):
         for order in self:
-            order.estado_aprobacion = 'aprobado' if order.total_descuento <= 100 else 'pendiente'
+            # Si se aprobo manualmente, se marca como 'aprobado' 
+            if order.manual_approved:
+                order.estado_aprobacion = 'aprobado'
+            else:
+                order.estado_aprobacion = 'aprobado' if order.total_descuento <= 100 else 'pendiente'
+
+    def action_approve(self):
+        """Accion del boton para aprobar manualmente la orden cuando esta pendiente."""
+        for order in self:
+            if order.estado_aprobacion == 'pendiente':
+                order.manual_approved = True
+        return True
