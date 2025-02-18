@@ -5,11 +5,15 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-
+            <!-- Se inserta el botón de cambio de estado -->
+            <xpath expr="//header" position="inside">
+                <button name="action_approve" type="object" string="Aprobar" class="btn-primary"/>
+            </xpath>
             <!-- Se muestran los campos 'total_descuento' y 'approval_state' -->
             <xpath expr="//sheet//group[1]" position="after">
                 <group string="Aprobación de Descuento">
                     <field name="total_descuento" readonly="1"/>
+                    <field name="estado_aprobacion" readonly="1"/>
                 </group>
             </xpath>
         </field>
