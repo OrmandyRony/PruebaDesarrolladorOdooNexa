@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  web:
+    image: odoo:latest
+    container_name: c_odoo_estudiantes
+    env_file: .env
+    depends_on:
+      - postgres
+    ports:
+      - "${WEB_PORT}:8069"
+    volumes:
+      - odoo-estudiantes-web-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+  postgres:
+    image: postgres:latest
+    container_name: c_postgres_estudiantes
+    env_file: .env
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - odoo-estudiantes-db-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+  odoo-estudiantes-db-data:
+  odoo-estudiantes-web-data:
