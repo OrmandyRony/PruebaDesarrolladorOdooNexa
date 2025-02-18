@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_order_form_inherit_discount_approval" model="ir.ui.view">
+        <field name="name">sale.order.form.discount.approval</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Se muestran los campos 'total_descuento' y 'approval_state' -->
+            <xpath expr="//sheet//group[1]" position="after">
+                <group string="Aprobación de Descuento">
+                    <field name="total_descuento" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
