@@ -10,6 +10,7 @@
             <xpath expr="//sheet//group[1]" position="after">
                 <group string="Aprobación de Descuento">
                     <field name="total_descuento" readonly="1"/>
+                    <field name="estado_aprobacion" readonly="1"/>
                 </group>
             </xpath>
         </field>
