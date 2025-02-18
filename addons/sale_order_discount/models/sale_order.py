@@ -30,6 +30,7 @@ class SaleOrder(models.Model):
 
     @api.depends('order_line', 'order_line.price_unit', 'order_line.discount', 'order_line.product_uom_qty')
     def _compute_total_descuento(self):
+        # Recorremos cada linea de la orden y calculamos el total de descuento
         for order in self:
             total = sum(
                 line.price_unit * (line.discount / 100.0) * line.product_uom_qty 
